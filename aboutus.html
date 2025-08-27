@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Planner</title>
+    <link rel="stylesheet" href="style.css">
+        <style>
+        /* --- About Page Specific Styles --- */
+
+        .about-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/about-bg.jpg') no-repeat center center/cover;
+            color: #fff;
+            padding: 100px 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .about-hero h1 {
+            font-size: 4.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.8);
+            letter-spacing: 2px;
+        }
+
+        .about-hero p {
+            font-size: 1.4em;
+            max-width: 900px;
+            margin: 0 auto;
+            line-height: 1.5;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+        }
+
+        .about-content-section {
+            padding: 60px 20px;
+            background-color: #222; /* Dark background */
+            color: #fff;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-heading {
+            text-align: center;
+            font-size: 3em;
+            color: #ff5722; /* Accent color */
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background-color: #7B68EE; /* Another accent */
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -15px;
+            border-radius: 2px;
+        }
+
+        .about-text-block {
+            background-color: #1a1a1a;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            margin-bottom: 40px;
+            text-align: justify;
+        }
+
+        .about-text-block h3 {
+            font-size: 2.2em;
+            color: #7B68EE; /* Accent color */
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .about-text-block p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: #ccc;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+            margin-bottom: 60px;
+        }
+
+        .value-item {
+            background-color: #1a1a1a;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .value-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .value-item h4 {
+            font-size: 1.8em;
+            color: #ff5722; /* Accent color */
+            margin-bottom: 10px;
+        }
+
+        .value-item p {
+            font-size: 1em;
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        /* Call to Action section */
+        .cta-section {
+            background-color: #1a1a1a;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            margin-top: 40px;
+        }
+
+        .cta-section h2 {
+            font-size: 3em;
+            color: #ff5722;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.2em;
+            color: #ccc;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #7B68EE; /* Accent color */
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #ff5722; /* Another accent on hover */
+            transform: translateY(-3px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .about-hero h1 {
+                font-size: 3.5em;
+            }
+            .about-hero p {
+                font-size: 1.1em;
+            }
+            .section-heading {
+                font-size: 2.5em;
+                margin-bottom: 40px;
+            }
+            .about-text-block h3 {
+                font-size: 1.8em;
+            }
+            .about-text-block, .values-grid, .cta-section {
+                padding: 25px;
+            }
+            .values-grid {
+                grid-template-columns: 1fr; /* Stack values vertically on small screens */
+            }
+            .value-item h4 {
+                font-size: 1.5em;
+            }
+            .cta-section h2 {
+                font-size: 2.5em;
+            }
+            .cta-section p {
+                font-size: 1em;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="main-header-top">
+        <div class="header-content-wrapper">
+            <div class="logo">BUDGET PLANNER</div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="aboutus.html">About</a></li>
+                    <li><a href="service.html">Service</a></li> <li><a href="blog.html">Blog</a></li>   <li><a href="contact.html">Contact</a></li> </ul>
+            </nav>
+
+            <div class="contact-info">
+                <span class="phone-number"> 📞 +91 9470626930</span>
+                <span class="email-address"> ✉️ ojha78934@gmail.com</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="about-hero">
+        <h1>About Budget Planner</h1>
+        <p>Your trusted partner in crafting unforgettable events, perfectly tailored to your vision and budget.</p>
+    </section>
+
+    <section class="about-content-section">
+        <h2 class="section-heading">Who We Are & What We Do</h2>
+
+        <div class="about-text-block">
+            <h3>Our Story</h3>
+            <p>At Budget Planner, we believe every event, big or small, deserves to be extraordinary. Founded by Kholi Kumar, our journey began with a simple yet powerful idea: to make professional event management accessible and stress-free for everyone, regardless of their budget. We understand the challenges of planning a perfect event, and that's why we're dedicated to transforming your ideas into seamless realities.</p>
+            <p>From the initial concept to the final execution, our team of experienced planners works tirelessly to ensure every detail aligns with your expectations. We pride ourselves on our meticulous planning, innovative solutions, and a deep understanding of what makes an event truly special.</p>
+        </div>
+
+        <div class="about-text-block">
+            <h3>Our Mission</h3>
+            <p>Our mission is to empower individuals and organizations to host successful, impactful, and memorable events without compromising on their financial goals. We strive to deliver exceptional event planning services that are transparent, efficient, and creatively aligned with your vision, ensuring maximum value for every rupee spent.</p>
+        </div>
+
+        <h2 class="section-heading">Our Core Values</h2>
+        <div class="values-grid">
+            <div class="value-item">
+                <h4>Client-Centricity</h4>
+                <p>Your vision is our priority. We listen, understand, and tailor every aspect of your event to meet your unique needs and desires.</p>
+            </div>
+            <div class="value-item">
+                <h4>Transparency</h4>
+                <p>We maintain clear communication and provide detailed breakdowns of all costs, ensuring you always know where your money is going.</p>
+            </div>
+            <div class="value-item">
+                <h4>Innovation</h4>
+                <p>We constantly explore new trends and creative solutions to make your event stand out, offering fresh and engaging experiences.</p>
+            </div>
+            <div class="value-item">
+                <h4>Efficiency</h4>
+                <p>Our streamlined processes and experienced team ensure timely execution and optimal resource utilization, delivering results within your timeframe.</p>
+            </div>
+            <div class="value-item">
+                <h4>Reliability</h4>
+                <p>You can count on us. We commit to delivering on our promises, providing dependable service from start to finish.</p>
+            </div>
+            <div class="value-item">
+                <h4>Excellence</h4>
+                <p>We are passionate about perfection. Every detail is meticulously managed to ensure your event is nothing short of spectacular.</p>
+            </div>
+        </div>
+
+        <div class="about-text-block">
+            <h3>What We Offer</h3>
+            <p>At Budget Planner, we offer a comprehensive range of event management services, including:</p>
+            <ul>
+                <li><strong>Political Events:</strong> Rallies, campaigns, conferences, and community camps.</li>
+                <li><strong>Personal Celebrations:</strong> Weddings, birthdays, anniversaries, and family gatherings.</li>
+                <li><strong>Corporate Functions:</strong> Galas, conferences, product launches, and team-building events.</li>
+                <li><strong>Cultural & Community Events:</strong> Festivals, fairs, and social welfare programs.</li>
+            </ul>
+            <p>We work with you to understand your budget and provide solutions that maximize impact while minimizing expenses.</p>
+        </div>
+
+        <div class="about-text-block">
+            <h3>Why Choose Us?</h3>
+            <p>Choosing Budget Planner means choosing peace of mind. We are dedicated to providing: </p>
+            <ul>
+                <li><strong>Budget Optimization:</strong> Smart planning to get the most out of your budget.</li>
+                <li><strong>Expertise:</strong> Experienced professionals handling every aspect.</li>
+                <li><strong>Customization:</strong> Events designed specifically for your vision.</li>
+                <li><strong>Stress-Free Execution:</strong> We manage logistics, so you can enjoy your event.</li>
+                <li><strong>Transparent Pricing:</strong> No hidden costs, just clear communication.</li>
+            </ul>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Ready to Plan Your Next Event?</h2>
+        <p>Whether it's a grand political rally or an intimate family celebration, Budget Planner is here to turn your ideas into a memorable reality. Let's create something amazing together.</p>
+        <a href="contact.html" class="cta-button">Contact Us Today!</a>
+    </section>
+       <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-logo">Budget Planner</div>
+            <div class="footer-info">
+                <p>&copy; Copyright 2025, BUDGET PLANNER Pvt Ltd</p>
+                <p>This is a events organise platform according to your budget</p>
+            </div>
+            <div class="footer-address">
+                <p>OUR MOTIVE IS HAPPY CUSTOMER</p>
+                <p>PATNA BIHAR </p>
+            </div>
+           <div class="social-icons">
+                <a href="#"><img src="assets/face.png" alt="Facebook"></a>
+                <a href="https://wa.me/919470626930?text= Namaste sir🙏🏻 how can i help you?" target="_blank"><img src="assets/wat.jpg" alt="WhatsApp"></a>
+                <a href="#"><img src="assets/link.png" alt="LinkedIn"></a>
+                <a href="#"><img src="assets/insta.jpg" alt="Instagram"></a>
+            </div>
+        </div>
+    </footer>
+    </body>
+</html>

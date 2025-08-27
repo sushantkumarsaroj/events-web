@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Planner</title>
+    <link rel="stylesheet" href="style.css">
+      <style>
+        /* --- Blog Page Specific Styles --- */
+        .blog-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/blog-bg.jpg') no-repeat center center/cover;
+            color: #fff;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .blog-hero h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 7px rgba(0, 0, 0, 0.8);
+            letter-spacing: 1px;
+        }
+
+        .blog-hero p {
+            font-size: 1.3em;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.5;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+        }
+
+        .blog-content-section {
+            padding: 60px 20px;
+            background-color: #222; /* Dark background */
+            color: #fff;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-heading {
+            text-align: center;
+            font-size: 3em;
+            color: #ff5722; /* Accent color */
+            margin-bottom: 50px;
+            position: relative;
+        }
+
+        .section-heading::after {
+            content: '';
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background-color: #7B68EE; /* Another accent */
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: -15px;
+            border-radius: 2px;
+        }
+
+        /* --- Blog Post Grid Styles --- */
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px; /* Space between blog posts */
+            margin-top: 40px;
+        }
+
+        .blog-post-card {
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            overflow: hidden; /* Ensures image corners are rounded */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column; /* Stacks image, text, button vertically */
+        }
+
+        .blog-post-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+        }
+
+        .blog-post-card img {
+            width: 100%;
+            height: 220px; /* Fixed height for consistent image display */
+            object-fit: cover; /* Crops image to fit without distortion */
+            display: block;
+        }
+
+        .blog-post-content {
+            padding: 25px;
+            flex-grow: 1; /* Allows content to take available space, pushing button to bottom */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .blog-post-content h3 {
+            font-size: 1.8em;
+            color: #ff5722; /* Accent color for title */
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+
+        .blog-post-meta {
+            font-size: 0.9em;
+            color: #bbb;
+            margin-bottom: 15px;
+        }
+
+        .blog-post-meta span {
+            margin-right: 15px;
+        }
+
+        .blog-post-description {
+            font-size: 1em;
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            flex-grow: 1; /* Allows description to fill space */
+        }
+
+        .read-more-button {
+            display: inline-block;
+            background-color: #7B68EE; /* Accent color */
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            align-self: flex-start; /* Align button to the left within flex container */
+        }
+
+        .read-more-button:hover {
+            background-color: #ff5722; /* Another accent on hover */
+            transform: translateY(-2px);
+        }
+
+        /* --- Call to Action section (reused from About Us or Contact) --- */
+        .cta-section {
+            background-color: #1a1a1a;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            margin-top: 60px; /* Space above CTA */
+        }
+
+        .cta-section h2 {
+            font-size: 3em;
+            color: #ff5722;
+            margin-bottom: 20px;
+        }
+
+        .cta-section p {
+            font-size: 1.2em;
+            color: #ccc;
+            margin-bottom: 30px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #7B68EE; /* Accent color */
+            color: #fff;
+            padding: 15px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #ff5722; /* Another accent on hover */
+            transform: translateY(-3px);
+        }
+
+        /* Responsive adjustments for blog page */
+        @media (max-width: 768px) {
+            .blog-hero h1 {
+                font-size: 3em;
+            }
+            .blog-hero p {
+                font-size: 1em;
+            }
+            .section-heading {
+                font-size: 2.5em;
+                margin-bottom: 40px;
+            }
+            .blog-grid {
+                grid-template-columns: 1fr; /* Stack posts vertically on small screens */
+                gap: 30px;
+            }
+            .blog-post-card img {
+                height: 180px;
+            }
+            .blog-post-content {
+                padding: 20px;
+            }
+            .blog-post-content h3 {
+                font-size: 1.5em;
+            }
+            .blog-post-meta {
+                font-size: 0.8em;
+            }
+            .blog-post-description {
+                font-size: 0.95em;
+            }
+            .read-more-button {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+            .cta-section h2 {
+                font-size: 2.5em;
+            }
+            .cta-section p {
+                font-size: 1em;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="main-header-top">
+        <div class="header-content-wrapper">
+            <div class="logo">BUDGET PLANNER</div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="aboutus.html">About</a></li>
+                    <li><a href="service.html">Service</a></li> <li><a href="blog.html">Blog</a></li>   <li><a href="contact.html">Contact</a></li> </ul>
+            </nav>
+
+            <div class="contact-info">
+                <span class="phone-number"> 📞 +91 9470626930</span>
+                <span class="email-address"> ✉️ ojha78934@gmail.com</span>
+            </div>
+        </div>
+    </header>
+     <div class="top-order-button-container">
+        <a href="contact.html" class="top-order-now-button">Order Now</a>
+    </div>
+
+    <section class="blog-hero">
+        <h1>Our Event Planning Blog</h1>
+        <p>Stay updated with the latest trends, tips, and insights on planning unforgettable events within your budget.</p>
+    </section>
+
+    <section class="blog-content-section">
+        <h2 class="section-heading">Latest Insights & Articles</h2>
+
+        <div class="blog-grid">
+            <div class="blog-post-card">
+                <img src="assets/birthday 3.jpeg" alt="Decorating for a Birthday Party">
+                <div class="blog-post-content">
+                    <h3>Top 5 Tips for Budget-Friendly Birthday Decor</h3>
+                    <div class="blog-post-meta">
+                        <span>By Budget Planner Team</span> | <span>July 5, 2025</span> | <span>#Birthday #Decor</span>
+                    </div>
+                    <p class="blog-post-description">Discover creative and cost-effective ways to make your next birthday celebration visually stunning without breaking the bank. Learn about DIY ideas, smart sourcing, and more!</p>
+                    <a href="blog-post-1.html" class="read-more-button">Read More</a>
+                </div>
+            </div>
+
+            <div class="blog-post-card">
+                <img src="assets/wedding2.jpeg" alt="Wedding Planning Checklist">
+                <div class="blog-post-content">
+                    <h3>Your Essential Wedding Planning Checklist</h3>
+                    <div class="blog-post-meta">
+                        <span>By Kholi Kumar</span> | <span>June 28, 2025</span> | <span>#Wedding #Planning</span>
+                    </div>
+                    <p class="blog-post-description">Planning a wedding can be overwhelming. Use our comprehensive checklist to stay organized, manage vendors, and ensure your big day runs smoothly from start to finish.</p>
+                    <a href="blog-post-2.html" class="read-more-button">Read More</a>
+                </div>
+            </div>
+
+            <div class="blog-post-card">
+                <img src="assets/fest3.jpg" alt="Corporate Event Success">
+                <div class="blog-post-content">
+                    <h3>Maximizing Impact at Your Next Corporate Event</h3>
+                    <div class="blog-post-meta">
+                        <span>By Budget Planner Team</span> | <span>June 20, 2025</span> | <span>#Corporate #Events</span>
+                    </div>
+                    <p class="blog-post-description">Learn how to plan corporate events that not only meet your objectives but also leave a lasting impression on your attendees. Focus on engagement, networking, and professionalism.</p>
+                    <a href="blog-post-3.html" class="read-more-button">Read More</a>
+                </div>
+            </div>
+
+            <div class="blog-post-card">
+                <img src="assets/relly.jpg" alt="Political Rally Management">
+                <div class="blog-post-content">
+                    <h3>Navigating Large-Scale Political Rallies: A Guide</h3>
+                    <div class="blog-post-meta">
+                        <span>By Expert Team</span> | <span>June 15, 2025</span> | <span>#Political #Rally</span>
+                    </div>
+                    <p class="blog-post-description">Organizing a successful political rally requires meticulous planning and execution. This guide covers everything from crowd management to logistics and security.</p>
+                    <a href="blog-post-4.html" class="read-more-button">Read More</a>
+                </div>
+            </div>
+
+            </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Ready to Turn Your Vision into Reality?</h2>
+        <p>Our blog provides valuable insights, but for hands-on expertise and seamless execution, our team is ready to assist you. Let's discuss your next event.</p>
+        <a href="contact.html" class="cta-button">Get a Free Consultation</a>
+    </section>
+       <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-logo">Budget Planner</div>
+            <div class="footer-info">
+                <p>&copy; Copyright 2025, BUDGET PLANNER Pvt Ltd</p>
+                <p>This is a events organise platform according to your budget</p>
+            </div>
+            <div class="footer-address">
+                <p>OUR MOTIVE IS HAPPY CUSTOMER</p>
+                <p>PATNA BIHAR </p>
+            </div>
+            <div class="social-icons">
+                <a href="#"><img src="assets/face.png" alt="Facebook"></a>
+                <a href="https://wa.me/919470626930?text= Namaste sir🙏🏻 how can i help you?" target="_blank"><img src="assets/wat.jpg" alt="WhatsApp"></a>
+                <a href="#"><img src="assets/link.png" alt="LinkedIn"></a>
+                <a href="#"><img src="assets/insta.jpg" alt="Instagram"></a>
+            </div>
+        </div>
+    </footer>
+    </body>
+</html>

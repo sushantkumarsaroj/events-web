@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Planner</title>
+    <link rel="stylesheet" href="style.css"> 
+<style>
+    /* --- Main Body and General Styles --- */
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #222;
+        color: #fff;
+        line-height: 1.6;
+    }
+
+    /* --- Header/Navbar Styling (copied from your previous code for completeness) --- */
+    .main-header-top {
+        background-color: #1a1a1a;
+        padding: 15px 0;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .header-content-wrapper {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+    }
+
+    .logo {
+        font-size: 28px;
+        font-weight: bold;
+        color: #fff;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        flex-shrink: 0;
+    }
+
+    .main-nav ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 25px;
+    }
+
+    .main-nav ul li a {
+        color: #fff;
+        text-decoration: none;
+        font-size: 17px;
+        font-weight: bold;
+        padding: 5px 0;
+        position: relative;
+        transition: color 0.3s ease;
+    }
+
+    .main-nav ul li a::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 3px;
+        background-color: #7B68EE; /* Accent color for underline */
+        left: 0;
+        bottom: -5px;
+        transition: width 0.3s ease;
+    }
+
+    .main-nav ul li a:hover::after {
+        width: 100%;
+    }
+
+    .main-nav ul li a:hover {
+        color: #7B68EE;
+    }
+
+    .contact-info {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-shrink: 0;
+    }
+
+    .phone-number,
+    .email-address {
+        font-size: 15px;
+        color: #ddd;
+    }
+
+    /* Responsive adjustments for header */
+    @media (max-width: 1024px) {
+        .header-content-wrapper {
+            flex-direction: column;
+            gap: 15px;
+            text-align: center;
+        }
+
+        .main-nav ul {
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .contact-info {
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .logo {
+            font-size: 24px;
+        }
+
+        .main-nav ul li a {
+            font-size: 15px;
+        }
+
+        .phone-number,
+        .email-address {
+            font-size: 14px;
+        }
+    }
+
+
+    /* --- Political and Non-Political Events Section Styles --- */
+    .events-category-section {
+        background-color: #fbabab; /* Dark background for this section */
+        padding: 80px 20px;
+        color: #fff;
+    }
+
+    .category-container {
+        display: flex; /* Arranges main category boxes side-by-side */
+        justify-content: center; /* Centers them horizontally */
+        gap: 40px; /* Space between the two main category boxes */
+        max-width: 1200px;
+        margin: 0 auto; /* Centers the container */
+        flex-wrap: wrap; /* Allows main boxes to wrap on smaller screens */
+    }
+
+    /* Styles for the individual Political/Non-Political main boxes */
+    .event-category-box {
+        background-color: #1a1a1a; /* Darker background for each individual category box */
+        border-radius: 10px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        flex: 1; /* Allows boxes to grow/shrink equally */
+        min-width: 350px;
+        max-width: 580px;
+        padding: 30px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-align: center; /* Center the main title/description */
+    }
+
+    .event-category-box:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 12px 25px rgba(21, 23, 21, 0.4);
+    }
+
+    /* Added/Updated: Styles for the main category titles and descriptions */
+    .main-category-title {
+        font-size: 38px; /* Larger title for the main category */
+        font-weight: bold;
+        margin-bottom: 15px;
+        color: #ff5722; /* Accent color for main title */
+    }
+
+    .main-category-description {
+        font-size: 17px;
+        line-height: 1.6;
+        color: #ccc;
+        margin-bottom: 40px; /* More space before the list of events */
+        padding: 0 20px; /* Padding for the description */
+    }
+
+    /* Styles for the list of events within each category box */
+    .event-list {
+        display: flex;
+        flex-direction: column; /* Stack individual events vertically */
+        gap: 25px; /* Space between each event item */
+    }
+
+    /* Styles for each individual event item */
+    .event-item {
+        display: flex; /* Arrange image and details side-by-side within an event item */
+        align-items: flex-start; /* Align items to the top (important for varying content height) */
+        gap: 20px;
+        background-color: #69c1be; /* Slightly lighter background for each event item */
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease;
+        padding: 15px; /* Added padding to the event-item itself */
+        flex-wrap: wrap; /* Allows image and details to stack on small screens */
+    }
+
+    .event-item:hover {
+        background-color: #3a3a3a; /* Darker background on hover */
+    }
+
+    .event-image {
+        width: 120px; /* Fixed width for event image */
+        height: 120px; /* Fixed height for event image */
+        object-fit: cover; /* Ensures image fills space without distortion */
+        display: block;
+        border-radius: 8px; /* Rounded corners for all sides */
+        flex-shrink: 0; /* Prevents image from shrinking */
+    }
+
+    .event-details {
+        flex: 1; /* Allow details to take remaining space */
+        text-align: left; /* Align text within details to left */
+    }
+
+    .event-title {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #fff;
+    }
+
+    .event-date {
+        font-size: 14px;
+        color: #bbb;
+        margin-bottom: 10px;
+    }
+
+    .event-description {
+        font-size: 15px;
+        color: #ccc;
+        line-height: 1.5;
+        margin-bottom: 15px;
+    }
+
+    .event-learn-more {
+        display: inline-block;
+        color: #7B68EE; /* Accent color for the link */
+        text-decoration: none;
+        font-weight: bold;
+        font-size: 14px;
+        transition: color 0.3s ease;
+    }
+
+    .event-learn-more:hover {
+        color: #ff5722; /* Change to another accent color on hover */
+    }
+
+  /* Styles for the extra details section that will be toggled */
+.event-extra-details {
+    /* Existing styles */
+    padding: 0 20px; /* **यह सुनिश्चित करें कि शुरुआत में padding 0 है (या जितना आप चाहते हैं कि जब छिपा हो)** */
+    background-color: #333;
+    border-top: 1px solid #444;
+    margin-top: 15px;
+    border-radius: 0 0 8px 8px;
+    text-align: left;
+    overflow: hidden; /* **यह बहुत महत्वपूर्ण है** */
+    max-height: 0; /* **यह बहुत महत्वपूर्ण है - शुरुआत में 0 सेट करें** */
+    opacity: 0; /* **यह भी महत्वपूर्ण है** */
+    /* Transition for smooth animation. Include padding as well */
+    transition: max-height 0.7s ease-in-out, opacity 0.7s ease-in-out, padding 0.7s ease-in-out; 
+    /* Increased transition duration for smoother effect */
+}
+
+/* Class to show the details */
+.event-extra-details.show {
+    /* **यह वैल्यू पर्याप्त बड़ी होनी चाहिए ताकि आपका पूरा कंटेंट इसमें फिट हो सके** */
+    max-height: 1000px; /* **इसे 500px से बढ़ाकर 1000px या 1500px करें (आवश्यकतानुसार)** */
+    opacity: 1; /* Make visible */
+    padding-top: 20px; /* **जब डिटेल्स दिखे, तो उचित padding दें** */
+    padding-bottom: 20px; /* **जब डिटेल्स दिखे, तो उचित padding दें** */
+}
+
+/* Styles for images within the extra details (यह सुनिश्चित करें कि इमेज कंटेनर के अंदर ही रहें) */
+.event-extra-details img {
+    max-width: 100%; /* इमेज को अपने पैरेंट की पूरी चौड़ाई लेने दें */
+    height: 200px; /* इमेज की एक निश्चित ऊंचाई सेट करें */
+    object-fit: cover; /* यह सुनिश्चित करेगा कि इमेज विकृत न हो */
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+    /* Optional: Style for when an event is active (details open) */
+    .event-item.active {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+        /* You might want to remove the bottom border-radius if the extra-details have their own */
+        /* border-bottom-left-radius: 0; */
+        /* border-bottom-right-radius: 0; */
+    }
+
+    /* --- Responsive Adjustments for Events Category Section --- */
+    @media (max-width: 1024px) {
+        .event-category-box {
+            min-width: 320px;
+            max-width: 500px;
+            padding: 25px;
+        }
+        .main-category-title {
+            font-size: 34px;
+        }
+        .main-category-description {
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        .event-item {
+            flex-direction: column; /* Stack image and details vertically on smaller screens */
+            align-items: center; /* Center content when stacked */
+            text-align: center;
+            padding: 15px;
+        }
+        .event-image {
+            width: 100%; /* Image takes full width when stacked */
+            height: 180px; /* Adjust height */
+            border-radius: 8px; /* All corners rounded for stacked image */
+            margin-bottom: 15px; /* Space below image */
+        }
+        .event-details {
+            text-align: center; /* Center text when stacked */
+        }
+        .event-extra-details {
+             border-radius: 0 0 8px 8px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .events-category-section {
+            padding: 50px 10px;
+        }
+        .event-category-box {
+            min-width: unset;
+            width: 100%;
+            padding: 20px;
+        }
+        .main-category-title {
+            font-size: 30px;
+        }
+        .main-category-description {
+            font-size: 15px;
+            margin-bottom: 25px;
+        }
+        .event-image {
+            height: 150px;
+        }
+        .event-title {
+            font-size: 18px;
+        }
+        .event-description {
+            font-size: 14px;
+        }
+        .event-extra-details {
+            padding: 15px; /* Smaller padding on very small screens */
+        }
+    }
+    
+    /* --- Footer Styles (copied from your code) --- */
+    .main-footer {
+        background-color: #1a1a1a;
+        color: #ddd;
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    .footer-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .footer-logo {
+        font-size: 28px;
+        font-weight: bold;
+        color: #fff;
+        flex: 1;
+        min-width: 200px;
+        text-align: left;
+    }
+
+    .footer-info,
+    .footer-address {
+        flex: 1;
+        min-width: 250px;
+        text-align: left;
+    }
+
+    .footer-info p,
+    .footer-address p {
+        margin: 5px 0;
+        font-size: 15px;
+    }
+
+    .social-icons {
+        flex: 1;
+        min-width: 150px;
+        text-align: right;
+    }
+
+    .social-icons a {
+        margin-left: 15px;
+        display: inline-block;
+    }
+
+    .social-icons img {
+        width: 28px;
+        height: 28px;
+        vertical-align: middle;
+    }
+
+    /* Responsive adjustments for footer */
+    @media (max-width: 992px) {
+        .footer-content {
+            flex-direction: column;
+            text-align: center;
+            gap: 20px;
+        }
+        .footer-logo,
+        .footer-info,
+        .footer-address,
+        .social-icons {
+            text-align: center;
+            min-width: unset;
+            width: 100%;
+        }
+        .social-icons a {
+            margin: 0 10px;
+        }
+    }
+    /* isme humko oder now wala button ko css wala style karna hai */
+    /* --- NEWLY ADDED: Order Now Box Styles --- */
+.order-now-box {
+    flex-shrink: 0; /* Prevents it from shrinking too much */
+    margin-left: 30px; /* Space from contact info */
+}
+
+.order-now-button {
+    display: inline-block;
+    background-color: #7B68EE; /* Your accent color */
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Add some shadow */
+}
+
+.order-now-button:hover {
+    background-color: #ff5722; /* Another accent color on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+/* Responsive adjustments for Order Now Box */
+@media (max-width: 1024px) {
+    .header-content-wrapper {
+        flex-direction: column; /* Stacks items vertically */
+        gap: 15px;
+        text-align: center;
+    }
+    /* Move order-now-box to the top or bottom for better mobile layout */
+    .order-now-box {
+        order: -1; /* Move to the top of the flex container */
+        margin-bottom: 15px; /* Space below it */
+        margin-left: 0; /* Remove left margin */
+    }
+
+    /* Adjust main-nav and contact-info to ensure consistent spacing */
+    .main-nav ul {
+        margin-top: 10px; /* Space from logo/order button */
+    }
+}
+
+@media (max-width: 768px) {
+    .order-now-button {
+        font-size: 1em;
+        padding: 8px 18px;
+    }
+}
+</style>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="main-header-top">
+        <div class="header-content-wrapper">
+            <div class="logo">BUDGET PLANNER</div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="aboutus.html">About</a></li>
+                    <li><a href="service.html">Service</a></li>
+                    <li><a href="blog.html">Blog</a></li>   
+                    <li><a href="contact.html">Contact</a></li> 
+                </ul>
+            </nav>
+
+            <div class="contact-info">
+                <span class="phone-number"> 📞 +91 9470626930</span>
+                <span class="email-address"> ✉️ ojha78934@gmail.com</span>
+            </div>
+        </div>
+    </header>
+
+    <section class="events-category-section">
+        <div class="category-container">
+
+            <div class="event-category-box political-events-container">
+                <h2 class="main-category-title">Political Events</h2>
+                <p class="main-category-description">Specializing in rallies, campaigns, and political gatherings with precision and impact.</p>
+                <div class="event-list">
+                    <div class="event-item">
+                        <img src="relly.jpg" alt="Political Rally" class="event-image">
+                        <div class="event-details">
+                            <h3 class="event-title">Political Rally</h3>
+                            <p class="event-description">A grand rally advocating for national unity and social harmony across states.</p>
+                            <a href="javascript:void(0)" class="event-learn-more" onclick="toggleDetails('politicalRallyDetails')">View Details</a>
+                        </div>
+                        <div id="politicalRallyDetails" class="event-extra-details hidden">
+                            <h4>Rally Details:</h4>
+                            <p>If you have an idea for your event, you can share that as well. Otherwise, we will provide you with the best ideas for your event according to our understanding, which will make you feel happy. This grand rally brought together diverse groups advocating for national cohesion and shared prosperity. Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                            <img src="assets/relly 1.jpg" alt="Rally View" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/relly.jpg" alt="Rally Crowd" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/relly3.webp" alt="Rally Stage" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/relly4.webp" alt="Rally Atmosphere" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                        </div>
+                    </div>
+
+                    <div class="event-item">
+                        <img src="stage performance.jpg" alt="Stage Performance" class="event-image">
+                        <div class="event-details">
+                            <h3 class="event-title">Stage Organiser</h3>
+                            <p class="event-description">Expert management for political stages, ensuring seamless technical and visual execution.</p>
+                            <a href="javascript:void(0)" class="event-learn-more" onclick="toggleDetails('stageOrganiserDetails')">View Details</a>
+                        </div>
+                        <div id="stageOrganiserDetails" class="event-extra-details hidden">
+                            <h4>Stage Organisation Details:</h4>
+                            <p>If you have an idea for your event, you can share that as well. Otherwise, we will provide you with the best ideas for your event according to our understanding, which will make you feel happy.</p>
+                            <img src="assets/stage1.jpg" alt="Stage Setup" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/stage2.jpeg" alt="Stage Setup" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/satge3.jpg" alt="Stage Setup" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/stage4.jpeg" alt="Stage Setup" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                        </div>
+                    </div>
+
+                    <div class="event-item">
+                        <img src="confernece.webp" alt="Policy Conference" class="event-image">
+                        <div class="event-details">
+                            <h3 class="event-title">Political Conference</h3>
+                            <p class="event-description">Facilitating insightful discussions on key political policies and future strategies.</p>
+                            <a href="javascript:void(0)" class="event-learn-more" onclick="toggleDetails('politicalConferenceDetails')">View Details</a>
+                        </div>
+                        <div id="politicalConferenceDetails" class="event-extra-details hidden">
+                            <h4>Conference Overview:</h4>
+                            <p>If you have an idea for your event, you can share that as well. Otherwise, we will provide you with the best ideas for your event according to our understanding, which will make you feel happy.</p>
+                            <img src="assets/conference1.jpg" alt="Conference Hall" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/conference 2.jpeg" alt="Conference Hall" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/conference 3.jpeg" alt="Conference Hall" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/conference 4.jpeg" alt="Conference Hall" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                        </div>
+                    </div>
+
+                    <div class="event-item">
+                        <img src="blood.jpg" alt="Camp for Various Things" class="event-image">
+                        <div class="event-details">
+                            <h3 class="event-title">Camp For Various Things</h3>
+                            <p class="event-description">Organizing community camps for health, awareness, and social initiatives.</p>
+                            <a href="javascript:void(0)" class="event-learn-more" onclick="toggleDetails('variousCampsDetails')">View Details</a>
+                        </div>
+                        <div id="variousCampsDetails" class="event-extra-details hidden">
+                            <h4>Camp Services:</h4>
+                            <p>If you have an idea for your event, you can share that as well. Otherwise, we will provide you with the best ideas for your event according to our understanding, which will make you feel happy.</p>
+                            <img src="assets/camp1.jpeg" alt="Blood Donation Camp" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/camp2.jpeg" alt="Blood Donation Camp" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/camp3.JPG" alt="Blood Donation Camp" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/camp4.jpeg" alt="Blood Donation Camp" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                        </div>
+                    </div>
+                </div>
+                         <div class="order-now-box">
+                <a href="contact.html" class="order-now-button">Order Now</a>
+            </div>
+            </div>
+
+            <div class="event-category-box non-political-events-container">
+                <h2 class="main-category-title">Non-Political Events</h2>
+                <p class="main-category-description">Creating memorable birthdays, weddings, corporate functions, and cultural festivals.</p>
+                <div class="event-list">
+                    <div class="event-item">
+                        <img src="birthdayjpg.webp" alt="Grand Birthday Bash" class="event-image">
+                        <div class="event-details">
+                            <h3 class="event-title">Birthday Function</h3>
+                            <p class="event-description">A lavish birthday celebration with live music, gourmet food, and stunning decor.</p>
+                            <a href="javascript:void(0)" class="event-learn-more" onclick="toggleDetails('birthdayFunctionDetails')">View Details</a>
+                        </div>
+                        <div id="birthdayFunctionDetails" class="event-extra-details hidden">
+                            <h4>Birthday  Details:</h4>
+                            <p>If you have an idea for your event, you can share that as well. Otherwise, we will provide you with the best ideas for your event according to our understanding, which will make you feel happy.</p>
+                            <img src="assets/birthday1.webp" alt="Birthday Party" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/birthday 2.jpeg" alt="Birthday Party" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/birthday 3.jpeg" alt="Birthday Party" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/birthday 4.jpeg" alt="Birthday Party" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                        </div>
+                    </div>
+
+                    <div class="event-item">
+    <img src="wedding.jpeg" alt="Dream Wedding" class="event-image">
+    <div class="event-details">
+        <h3 class="event-title">Wedding Function</h3>
+        <p class="event-description">Crafting bespoke wedding experiences at picturesque locations for unforgettable memories.</p>
+        <a href="javascript:void(0)" class="event-learn-more" onclick="toggleDetails('weddingFunctionDetails')">View Details</a>
+    </div>
+    <div id="weddingFunctionDetails" class="event-extra-details hidden">
+        <h4>Wedding Services:</h4>
+        <p>If you have an idea for your event, you can share that as well. Otherwise, we will provide you with the best ideas for your event according to our understanding, which will make you feel happy.</p>
+        <img src="assets/wedding1.jpeg" alt="Wedding Setup" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+        <img src="assets/wedding2.jpeg" alt="Wedding Setup" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+        <img src="assets/wedding 3.jpg" alt="Wedding Setup" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+        <img src="assets/wedding4.jpeg" alt="Wedding Setup" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+    </div>
+</div>
+
+                    <div class="event-item">
+                        <img src="colleges.jpg" alt="College Function" class="event-image">
+                        <div class="event-details">
+                            <h3 class="event-title">College Function</h3>
+                            <p class="event-description">Organizing vibrant college events, fests, and cultural programs with student engagement.</p>
+                            <a href="javascript:void(0)" class="event-learn-more" onclick="toggleDetails('collegeFunctionDetails')">View Details</a>
+                        </div>
+                        <div id="collegeFunctionDetails" class="event-extra-details hidden">
+                            <h4>College Event :</h4>
+                            <p>If you have an idea for your event, you can share that as well. Otherwise, we will provide you with the best ideas for your event according to our understanding, which will make you feel happy.</p>
+                            <img src="assets/fest1.jpeg" alt="College Fest" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/fest2.jpg" alt="College Fest" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/fest3.jpg" alt="College Fest" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/fest4.jpg" alt="College Fest" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                        </div>
+                    </div>
+
+                    <div class="event-item">
+                        <img src="front 5.jpg" alt="Normal Function" class="event-image">
+                        <div class="event-details">
+                            <h3 class="event-title">Normal Function</h3>
+                            <p class="event-description">Comprehensive event planning for various personal and community gatherings.</p>
+                            <a href="javascript:void(0)" class="event-learn-more" onclick="toggleDetails('normalFunctionDetails')">View Details</a>
+                        </div>
+                        <div id="normalFunctionDetails" class="event-extra-details hidden">
+                            <h4> Event Planning:</h4>
+                            <p>If you have an idea for your event, you can share that as well. Otherwise, we will provide you with the best ideas for your event according to our understanding, which will make you feel happy.</p>
+                            <img src="assets/n1.jpg" alt="Community Gathering" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/n2.jpg" alt="Community Gathering" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/n3.jpeg" alt="Community Gathering" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                            <img src="assets/n4.jpg" alt="Community Gathering" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                        </div>
+                    </div>
+
+                    <div class="event-item">
+                        <img src="anniversary.webp" alt="Anniversary Function" class="event-image">
+                        <div class="event-details">
+                            <h3 class="event-title">Anniversary Function</h3>
+                            <p class="event-description">"An anniversary celebration is a beautiful commemoration of love, commitment, and a shared journey."</p>
+                            <a href="javascript:void(0)" class="event-learn-more" onclick="toggleDetails('anniversaryFunctionDetails')">View Details</a>
+                        </div>
+                        <div id="anniversaryFunctionDetails" class="event-extra-details hidden">
+                            <h4>Anniversary Details:</h4>
+                            <p>If you have an idea for your event, you can share that as well. Otherwise, we will provide you with the best ideas for your event according to our understanding, which will make you feel happy.</p>
+                            <img src="assets/anni1.jpeg" alt="Anniversary Decor" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                             <img src="assets/ann2.webp" alt="Anniversary Decor" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                             <img src="assets/anni3.jpg" alt="Anniversary Decor" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                             <img src="assets/anni4.jpeg" alt="Anniversary Decor" style="width: 100%; height: 200px; object-fit: cover; margin-top: 15px; border-radius: 5px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-logo">Budget Planner</div>
+            <div class="footer-info">
+                <p>&copy; Copyright 2025, BUDGET PLANNER Pvt Ltd</p>
+                <p>This is an events organise platform according to your budget</p>
+            </div>
+            <div class="footer-address">
+                <p>OUR MOTIVE IS HAPPY CUSTOMER</p>
+                <p>PATNA BIHAR </p>
+            </div>
+            <div class="social-icons">
+                <a href="#"><img src="assets/face.png" alt="Facebook"></a>
+                <a href="https://wa.me/919470626930?text= Namaste sir🙏🏻 how can i help you?" target="_blank"><img src="assets/wat.jpg" alt="WhatsApp"></a>
+                <a href="#"><img src="assets/link.png" alt="LinkedIn"></a>
+                <a href="#"><img src="assets/insta.jpg" alt="Instagram"></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleDetails(elementId) {
+            const detailsElement = document.getElementById(elementId);
+            if (!detailsElement) {
+                console.error(`Error: Element with ID "${elementId}" not found.`);
+                return; // Exit if element not found to prevent errors
+            }
+            
+            const parentEventItem = detailsElement.closest('.event-item');
+
+            if (detailsElement.classList.contains('show')) {
+                // If currently visible, hide it
+                detailsElement.classList.remove('show');
+                if (parentEventItem) { // Check if parentEventItem exists
+                    parentEventItem.classList.remove('active');
+                }
+            } else {
+                // If currently hidden, show it
+                detailsElement.classList.add('show');
+                if (parentEventItem) { // Check if parentEventItem exists
+                    parentEventItem.classList.add('active');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BUDGET PLANNER - Event Management</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* isme hum jo sign up ka form aayeg auska hi css haii */
+        /* --- NEWLY ADDED: Full-Page Sign-Up Overlay Styles --- */
+.signup-overlay {
+    position: fixed; /* Stays in place even when scrolling */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Dark semi-transparent overlay */
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    z-index: 9999; /* Ensure it's on top of everything else */
+    /* Optional: Smooth transition for appearance/disappearance */
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s ease-in-out, visibility 0.4s ease-in-out;
+}
+
+.signup-overlay.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.signup-form-container {
+    background-color: #1a1a1a; /* Dark background for the form box */
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    text-align: center;
+    width: 90%;
+    max-width: 500px; /* Max width for the form */
+    color: #fff;
+    transform: scale(1); /* Initial scale */
+    transition: transform 0.4s ease-in-out;
+}
+
+.signup-overlay.hidden .signup-form-container {
+    transform: scale(0.9); /* Shrink slightly when hidden */
+}
+
+.signup-form-container h2 {
+    font-size: 2.5em;
+    color: #ff5722; /* Accent color */
+    margin-bottom: 15px;
+}
+
+.signup-form-container p {
+    font-size: 1.1em;
+    color: #ccc;
+    margin-bottom: 30px;
+}
+
+.signup-form-container .form-group {
+    margin-bottom: 20px;
+    text-align: left; /* Align labels and inputs to the left */
+}
+
+.signup-form-container .form-group label {
+    display: block;
+    font-size: 1em;
+    color: #ddd;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.signup-form-container .form-group input[type="text"],
+.signup-form-container .form-group input[type="email"],
+.signup-form-container .form-group input[type="tel"],
+.signup-form-container .form-group textarea {
+    width: calc(100% - 20px); /* Adjust for padding */
+    padding: 12px 10px;
+    border: 1px solid #444;
+    border-radius: 6px;
+    background-color: #333;
+    color: #fff;
+    font-size: 1em;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.signup-form-container .form-group input:focus,
+.signup-form-container .form-group textarea:focus {
+    border-color: #7B68EE; /* Accent color on focus */
+    background-color: #444;
+    outline: none;
+}
+
+.signup-form-container .form-group textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.signup-submit-button {
+    display: block;
+    width: 100%;
+    padding: 15px 25px;
+    background-color: #7B68EE; /* Accent color */
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 20px;
+    text-transform: uppercase;
+}
+
+.signup-submit-button:hover {
+    background-color: #ff5722; /* Another accent on hover */
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+/* Hide body content by default until form is submitted or hidden by JS */
+/* This might conflict with your existing CSS, adjust as needed */
+/* We'll use JS to control visibility */
+body.no-scroll {
+    overflow: hidden; /* Prevents scrolling when overlay is active */
+}
+
+/* Responsive Adjustments for Overlay */
+@media (max-width: 768px) {
+    .signup-form-container {
+        padding: 30px 20px;
+    }
+    .signup-form-container h2 {
+        font-size: 2em;
+    }
+    .signup-form-container p {
+        font-size: 1em;
+        margin-bottom: 20px;
+    }
+    .signup-form-container .form-group label,
+    .signup-form-container .form-group input,
+    .signup-form-container .form-group textarea {
+        font-size: 0.9em;
+    }
+    .signup-submit-button {
+        font-size: 1.1em;
+        padding: 12px 20px;
+    }
+}
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<header class="navbar">
+    <div class="logo">BUDGET PLANNER</div>
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="aboutus.html">About</a></li>
+            <li><a href="service.html">Service</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+    <div class="contact">
+        <span>📞 +91 9470626930</span>
+        <span>✉️ ojha78934@gmail.com</span>
+    </div>
+</header>
+    <div id="signupOverlay" class="signup-overlay">
+    <div class="signup-form-container">
+        <h2>Welcome to Budget Planner!</h2>
+        <p>Please sign up to access our full services and exclusive offers.</p>
+        <form id="signupForm">
+            <div class="form-group">
+                <label for="overlayName">Full Name:</label>
+                <input type="text" id="overlayName" name="fullName" placeholder="Your Full Name" required>
+            </div>
+            <div class="form-group">
+                <label for="overlayAddress">Address:</label>
+                <textarea id="overlayAddress" name="address" rows="3" placeholder="Your complete address" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="overlayMobile">Mobile Number:</label>
+                <input type="tel" id="overlayMobile" name="mobileNumber" placeholder="+91 1234567890" pattern="[0-9]{10}" title="Please enter a 10-digit mobile number" required>
+            </div>
+            <div class="form-group">
+                <label for="overlayWhatsapp">WhatsApp Number (Optional):</label>
+                <input type="tel" id="overlayWhatsapp" name="whatsappNumber" placeholder="Same as mobile or different">
+            </div>
+            <div class="form-group">
+                <label for="overlayEmail">Email Address:</label>
+                <input type="email" id="overlayEmail" name="email" placeholder="you@example.com" required>
+            </div>
+            <button type="submit" class="signup-submit-button">Sign Up & Enter</button>
+        </form>
+    </div>
+</div>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-text">
+        <p class="sub-text">WELCOME TO ALL OF YOU❤️</p>
+        <h1>It's Time To Celebrate!</h1>
+        <p class="description"> Budget planner Private Limited is a well-known service provider in the field of Event Planning and have a huge base of satisfied and happy customers.</p>
+        <div class="buttons">
+            <a href="aboutus.html" class="btn about">ABOUT US</a>
+            <a href="service.html" class="btn quote">OUR SERVICES</a>
+        </div>
+    </div>
+
+    <!-- Hero Images -->
+    <div class="hero-images">
+        <img src="front 8.avif" alt="Function" class="img img1">
+        <img src="colleges.jpg" alt="Stage" class="img img2">
+        <img src="relly.jpg" alt="Political Rally" class="img img3">
+    </div>
+</section>
+   <section class="celebration-section">
+        <p class="greeting-text">Hello Our Happy Customer!</p>
+        <h1 class="main-celebration-heading">We will give a very special<br>Events for you</h1>
+
+        <div class="services-grid">
+
+            <div class="service-card">
+                <div class="card-image">
+                    <img src="front 3.jpg" alt="Our Customer Happiness">
+                </div>
+                <h3 class="card-title">Our Customer Happiness</h3>
+                <p class="card-description">✅ "We don’t just plan events, we create unforgettable memories."
+                                             "Your happiness is our biggest celebration!"
+                                             "Where your dream event becomes a beautiful reality....</p>
+            </div>
+
+            <div class="service-card">
+                <div class="card-image">
+                    <img src="front 8.avif" alt="Exhibitions Of Events">
+                </div>
+                <h3 class="card-title">Exhibitions of events</h3>
+                <p class="card-description"> ➡️"We create memorable and joyful celebrations that touch hearts."
+                                              "Delivering flawless events with professional planning and creative designs."
+                                              "Let your moments shine with our seamless, hassle-free services....</p>
+            </div>
+
+            <div class="service-card">
+                <div class="card-image">
+                    <img src="front1.jpeg" alt="Pictures Of Events">
+                </div>
+                <h3 class="card-title">Pictures Of Events</h3>
+                <p class="card-description">✔️ "Turning fleeting moments into forever memories."
+                                              "Your celebrations, our lens, perfect together."
+                                              "We don’t just take photos, we capture feelings."...</p>
+            </div>
+
+            <div class="service-card">
+                <div class="card-image">
+                    <img src="front10.jpg" alt=" Live Events">
+                </div>
+                <h3 class="card-title"> Live Entertainment</h3>
+                <p class="card-description">➡️ “In every live event, there is a spark of happiness waiting to be felt.”
+                                              “Good vibes, great company, unforgettable nights.”
+                                              “The energy of a live event stays in your heart forever.”...</p>
+            </div>
+
+        </div>
+    </section>
+<section class="gallery-section">
+        <h2>Our Gallery</h2>
+        <div class="gallery-images">
+            <img src="front 4.avif" alt="Gallery Image 1">
+            <img src="front2.jpg" alt="Gallery Image 2">
+            <img src="front 7.avif" alt="Gallery Image 3">
+            </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-logo">Budget Planner</div>
+            <div class="footer-info">
+                <p>&copy; Copyright 2025, BUDGET PLANNER Pvt Ltd</p>
+                <p>This is a events organise platform according to your budget</p>
+            </div>
+            <div class="footer-address">
+                <p>OUR MOTIVE IS HAPPY CUSTOMER</p>
+                <p>PATNA BIHAR </p>
+            </div>
+            <div class="social-icons">
+                <a href="#"><img src="assets/face.png" alt="Facebook"></a>
+                <a href="https://wa.me/919470626930?text= Namaste sir🙏🏻 how can i help you?" target="_blank"><img src="assets/wat.jpg" alt="WhatsApp"></a>
+                <a href="#"><img src="assets/link.png" alt="LinkedIn"></a>
+                <a href="#"><img src="assets/insta.jpg" alt="Instagram"></a>
+            </div>
+        </div>
+    </footer>
+      <script src="script.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            // *** Public Key यहां भर दी गई है ***
+            emailjs.init({
+                publicKey: "4wC-mrbx1jDE2UfLy", // <-- आपकी Public Key
+            });
+        })();
+        /* iske niche hum apna code dallenge jisse email.js bhi connet hoga aur profile per front me jo sumbit wala form hai woh bhi dikhega */
+        document.addEventListener('DOMContentLoaded', function() {
+    const signupOverlay = document.getElementById('signupOverlay');
+    const signupForm = document.getElementById('signupForm');
+    const body = document.body;
+
+    // Function to show the overlay
+    function showOverlay() {
+        if (signupOverlay) {
+            signupOverlay.classList.remove('hidden');
+            body.classList.add('no-scroll');
+        }
+    }
+
+    // Function to hide the overlay
+    function hideOverlay() {
+        if (signupOverlay) {
+            signupOverlay.classList.add('hidden');
+            body.classList.remove('no-scroll');
+        }
+    }
+
+    // Show the overlay when the page loads (only on index.html or root path)
+    if (signupOverlay && (window.location.pathname.includes('index.html') || window.location.pathname === '/')) {
+        showOverlay();
+    }
+
+    // --- Handle Sign-Up Form Submission (EmailJS) ---
+    if (signupForm) {
+        signupForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Basic Form Validation
+            const name = document.getElementById('overlayName').value;
+            const address = document.getElementById('overlayAddress').value;
+            const mobile = document.getElementById('overlayMobile').value;
+            const email = document.getElementById('overlayEmail').value;
+
+            if (name === "" || address === "" || mobile === "" || email === "") {
+                alert("Please fill in all required fields.");
+                return;
+            }
+
+            // Prepare template parameters (these names MUST match your EmailJS template variables)
+            const templateParams = {
+                fullName: name,
+                address: address,
+                mobileNumber: mobile,
+                whatsappNumber: document.getElementById('overlayWhatsapp').value,
+                email: email,
+                email_to: "kholi1203@gmail.com" // जिस Gmail पर आपको ईमेल चाहिए
+            };
+
+            // Send the email using EmailJS
+            // *** Service ID और Template ID यहां भर दिए गए हैं ***
+            emailjs.send(
+                "service_c480s7u",       // <-- आपकी अपडेटेड Service ID
+                "template_d830k2i",      // <-- आपकी अपडेटेड Template ID (साइन-अप फ़ॉर्म के लिए)
+                templateParams
+            )
+            .then(function(response) {
+                console.log('SUCCESS!', response.status, response.text);
+                alert("Thank you for signing up! You can now explore the page.");
+                hideOverlay();
+                signupForm.reset();
+            }, function(error) {
+                console.error('FAILED...', error);
+                alert("Oops! Something went wrong with your sign-up. Please try again.");
+            });
+        });
+    }
+
+    // --- Order Form Submission Logic (अगर एक ही script.js में है और आपने EmailJS टेम्पलेट बनाया है) ---
+    const orderForm = document.getElementById('orderForm');
+    if (orderForm) {
+        orderForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // ... (आपका validation और orderTemplateParams ऑब्जेक्ट बनाना) ...
+
+            const orderTemplateParams = {
+                fullName: document.getElementById('fullName').value,
+                mobileNumber: document.getElementById('mobileNumber').value,
+                whatsappNumber: document.getElementById('whatsappNumber').value,
+                email: document.getElementById('email').value,
+                fullAddress: document.getElementById('fullAddress').value,
+                eventType: document.getElementById('eventType').value,
+                eventDate: document.getElementById('eventDate').value,
+                numGuests: document.getElementById('numGuests').value,
+                eventDetails: document.getElementById('eventDetails').value,
+                budgetRange: document.getElementById('budgetRange').value,
+                yourIdeas: document.getElementById('yourIdeas').value,
+                email_to: "kholi1203@gmail.com" // जिस Gmail पर आपको ईमेल चाहिए
+            };
+
+            // *** यहां भी Service ID और Order Template ID भरें (यदि आपके पास अलग ऑर्डर टेम्पलेट है) ***
+            // मान लीजिए आपके ऑर्डर टेम्पलेट की ID 'template_order_form' है।
+            emailjs.send(
+                "service_c480s7u",       // <-- आपकी अपडेटेड Service ID
+                "template_order_form",   // <-- ऑर्डर फ़ॉर्म टेम्पलेट की ID (इसे अपनी वास्तविक ऑर्डर टेम्पलेट ID से बदलें)
+                orderTemplateParams
+            )
+            .then(function(response) {
+                console.log('ORDER SUCCESS!', response.status, response.text);
+                alert("Your event order has been submitted successfully! We will contact you soon.");
+                orderForm.reset();
+            }, function(error) {
+                console.error('ORDER FAILED...', error);
+                alert("Oops! There was a problem submitting your order. Please try again.");
+            });
+        });
+    }
+});
+    </script>
+
+</body>
+</html>
+

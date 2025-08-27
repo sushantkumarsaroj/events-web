@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Planner</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- Contact Page Specific Styles --- */
+        .contact-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/contact-bg.jpg') no-repeat center center/cover;
+            color: #fff;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        .contact-hero h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .contact-hero p {
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .contact-details-section {
+            padding: 60px 20px;
+            background-color: #222; /* Dark background */
+            color: #fff;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-info-box, .payment-info-box, .location-info-box {
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+            padding: 30px;
+            text-align: center;
+            flex: 1;
+            min-width: 300px;
+            max-width: 380px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .contact-info-box:hover, .payment-info-box:hover, .location-info-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        .contact-info-box h2, .payment-info-box h2, .location-info-box h2 {
+            color: #ff5722; /* Accent color */
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .contact-info-box p, .location-info-box p {
+            font-size: 1.1em;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .contact-info-box p strong {
+            color: #7B68EE; /* Another accent for labels */
+        }
+
+        .contact-info-box a {
+            color: #7B68EE;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info-box a:hover {
+            color: #ff5722;
+        }
+
+        .payment-info-box img {
+            max-width: 80%; /* Adjust QR code size */
+            height: auto;
+            border-radius: 5px;
+            margin: 20px auto 0 auto; /* Center QR code */
+            display: block; /* Make it a block element to apply margin:auto */
+        }
+
+        .payment-info-box p {
+            font-size: 1em;
+            color: #ccc;
+            margin-top: 15px;
+        }
+
+        .location-info-box iframe {
+            width: 100%;
+            height: 250px; /* Adjust map height */
+            border: 0;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        /* Responsive adjustments for contact page */
+        @media (max-width: 768px) {
+            .contact-hero h1 {
+                font-size: 3em;
+            }
+            .contact-hero p {
+                font-size: 1em;
+            }
+            .contact-details-section {
+                flex-direction: column;
+                padding: 40px 15px;
+            }
+            .contact-info-box, .payment-info-box, .location-info-box {
+                min-width: unset;
+                width: 100%;
+                padding: 25px;
+            }
+        }
+        /* isme hum apna form ka css likh rahe hai */
+        /* --- Order Page Specific Styles --- */
+        .order-hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('images/order-bg.jpg') no-repeat center center/cover;
+            color: #fff;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .order-hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+
+        .order-hero p {
+            font-size: 1.1em;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .order-form-section {
+            padding: 60px 20px;
+            background-color: #222; /* Dark background */
+            color: #fff;
+            display: flex;
+            justify-content: center;
+        }
+
+        .order-form-container {
+            background-color: #1a1a1a;
+            border-radius: 10px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            width: 100%;
+            max-width: 800px; /* Max width for the form */
+        }
+
+        .order-form-container h2 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #ff5722; /* Accent color */
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 1.1em;
+            color: #ccc;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group input[type="date"],
+        .form-group select,
+        .form-group textarea {
+            width: calc(100% - 20px); /* Adjust for padding */
+            padding: 12px 10px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            font-size: 1em;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group input[type="tel"]:focus,
+        .form-group input[type="date"]:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #7B68EE; /* Accent color on focus */
+            background-color: #444;
+            outline: none;
+        }
+
+        .form-group textarea {
+            min-height: 120px; /* Minimum height for textareas */
+            resize: vertical; /* Allow vertical resizing */
+        }
+
+        .form-group select option {
+            background-color: #333; /* For dropdown options */
+            color: #fff;
+        }
+
+        .submit-button {
+            display: block;
+            width: 100%;
+            padding: 15px 20px;
+            background-color: #7B68EE; /* Accent color */
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.3em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            margin-top: 30px;
+        }
+
+        .submit-button:hover {
+            background-color: #ff5722; /* Another accent on hover */
+            transform: translateY(-3px);
+        }
+
+        /* Responsive adjustments for order form */
+        @media (max-width: 768px) {
+            .order-hero h1 {
+                font-size: 2.5em;
+            }
+            .order-hero p {
+                font-size: 0.9em;
+            }
+            .order-form-section {
+                padding: 40px 15px;
+            }
+            .order-form-container {
+                padding: 25px;
+            }
+            .order-form-container h2 {
+                font-size: 2em;
+                margin-bottom: 25px;
+            }
+            .form-group label {
+                font-size: 1em;
+            }
+            .form-group input, .form-group select, .form-group textarea {
+                font-size: 0.9em;
+                padding: 10px;
+            }
+            .submit-button {
+                font-size: 1.1em;
+                padding: 12px 15px;
+            }
+        }
+        
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="main-header-top">
+        <div class="header-content-wrapper">
+            <div class="logo">BUDGET PLANNER</div>
+            
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="aboutus.html">About</a></li>
+                    <li><a href="service.html">Service</a></li> <li><a href="blog.html">Blog</a></li>   <li><a href="contact.html">Contact</a></li> </ul>
+            </nav>
+
+            <div class="contact-info">
+                <span class="phone-number"> 📞 +91 9470626930</span>
+                <span class="email-address"> ✉️ ojha78934@gmail.com</span>
+            </div>
+        </div>
+
+    </header>
+
+    <section class="contact-hero">
+        <h1>Get In Touch</h1>
+        <p>We're here to help you plan your perfect event. Reach out to us through any of the contact methods below, or make payments easily with our QR code.</p>
+    </section>
+
+    <section class="contact-details-section">
+        
+        <div class="contact-info-box">
+            <h2>Contact Information</h2>
+            <p><strong>Name:</strong> sushant kumar saroj</p>
+            <p><strong>Phone:</strong> <a href="tel:+919470626930">+91 9470626930</a></p>
+            <p><strong>Email:</strong> <a href="mailto:ojha78934@gmail.com">ojha78934@gmail.com</a></p>
+            <p><strong>Hours:</strong> 24/7 Available for services</p>
+        </div>
+
+        <div class="payment-info-box">
+            <h2>Easy Payments</h2>
+            <p>Scan the QR code below for quick and secure payments.</p>
+            <img src="assets/sushant scannner 2.jpeg" alt="Payment QR Code">
+            <p>Preferred UPI Apps: Google Pay, PhonePe, Paytm</p>
+        </div>
+
+        <div class="location-info-box">
+            <h2>Our Location</h2>
+            <p><strong>Address:</strong> Flat No. 123, Budget Planner Tower, Near Gandhi Maidan, Patna, Bihar - 800001, India</p>
+            <p>Come visit us!</p>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3597.5684693356133!2d85.14371907446549!3d25.619098977462085!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f2913e61ff3d6f%3A0xc3b9f3e4a2d8e4f!2sGandhi%20Maidan!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+    </section>
+    <section class="order-hero">
+    <h1>Order Your Dream Event</h1>
+    <p>Tell us about your event, and our team will get back to you with a personalized plan and budget.</p>
+</section>
+
+<section class="order-form-section">
+    <div class="order-form-container">
+        <h2>Event Booking Form</h2>
+        <form id="orderForm">
+            <div class="form-group">
+                <label for="fullName">Full Name:</label>
+                <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="mobileNumber">Mobile Number:</label>
+                <input type="tel" id="mobileNumber" name="mobileNumber" placeholder="e.g., +919876543210" pattern="[0-9]{10}" title="Please enter a 10-digit mobile number" required>
+            </div>
+
+            <div class="form-group">
+                <label for="whatsappNumber">WhatsApp Number (Optional):</label>
+                <input type="tel" id="whatsappNumber" name="whatsappNumber" placeholder="Same as mobile or different">
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email Address:</label>
+                <input type="email" id="email" name="email" placeholder="e.g., yourname@example.com" required>
+            </div>
+
+            <div class="form-group">
+                <label for="fullAddress">Event Location/Full Address:</label>
+                <textarea id="fullAddress" name="fullAddress" rows="4" placeholder="House No., Street, Locality, City, State, Pincode" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="eventType">Type of Event:</label>
+                <select id="eventType" name="eventType" required>
+                    <option value="">-- Select Event Type --</option>
+                    <option value="political-rally">Political Rally</option>
+                    <option value="stage-organiser">Stage Organiser</option>
+                    <option value="political-conference">Political Conference</option>
+                    <option value="various-camps">Camp for Various Things</option>
+                    <option value="birthday-function">Birthday Function</option>
+                    <option value="wedding-function">Wedding Function</option>
+                    <option value="college-function">College Function</option>
+                    <option value="normal-function">Normal Function</option>
+                    <option value="anniversary-function">Anniversary Function</option>
+                    <option value="other">Other (Please specify below)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="eventDate">Preferred Event Date:</label>
+                <input type="date" id="eventDate" name="eventDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="numGuests">Expected Number of Guests:</label>
+                <input type="number" id="numGuests" name="numGuests" min="1" placeholder="e.g., 100" required>
+            </div>
+
+            <div class="form-group">
+                <label for="eventDetails">Tell us more about your event (what you envision, specific requirements, theme, etc.):</label>
+                <textarea id="eventDetails" name="eventDetails" rows="6" placeholder="Describe your event in detail. For example, 'I need a grand wedding setup for 500 guests with a floral theme and a live band.'"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="budgetRange">Your Approximate Budget Range (Optional, helps us tailor proposals):</label>
+                <select id="budgetRange" name="budgetRange">
+                    <option value="">-- Select Budget --</option>
+                    <option value="below-50k">Below ₹50,000</option>
+                    <option value="50k-1lakh">₹50,000 - ₹1 Lakh</option>
+                    <option value="1lakh-3lakh">₹1 Lakh - ₹3 Lakh</option>
+                    <option value="3lakh-5lakh">₹3 Lakh - ₹5 Lakh</option>
+                    <option value="5lakh-10lakh">₹5 Lakh - ₹10 Lakh</option>
+                    <option value="above-10lakh">Above ₹10 Lakh</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="yourIdeas">Any special ideas or additional notes for your event?</label>
+                <textarea id="yourIdeas" name="yourIdeas" rows="4" placeholder="Do you have any unique ideas, specific vendors in mind, or any other details you'd like to share?"></textarea>
+            </div>
+
+            <button type="submit" class="submit-button">Submit Your Event Request</button>
+        </form>
+    </div>
+</section>
+
+       <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-logo">Budget Planner</div>
+            <div class="footer-info">
+                <p>&copy; Copyright 2025, BUDGET PLANNER Pvt Ltd</p>
+                <p>This is a events organise platform according to your budget</p>
+            </div>
+            <div class="footer-address">
+                <p>OUR MOTIVE IS HAPPY CUSTOMER</p>
+                <p>PATNA BIHAR </p>
+            </div>
+          <div class="social-icons">
+                <a href="#"><img src="assets/face.png" alt="Facebook"></a>
+                <a href="https://wa.me/919470626930?text= Namaste sir🙏🏻 how can i help you?" target="_blank"><img src="assets/wat.jpg" alt="WhatsApp"></a>
+                <a href="#"><img src="assets/link.png" alt="LinkedIn"></a>
+                <a href="#"><img src="assets/insta.jpg" alt="Instagram"></a>
+            </div>
+        </div>
+    </footer>
+     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init({
+                publicKey: "4wC-mrbx1jDE2UfLy", // <-- आपकी Public Key
+            });
+        })();
+
+        // *** आपका पूरा JavaScript कोड यहां से शुरू होता है ***
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Sign-up Form Logic ---
+            const signupOverlay = document.getElementById('signupOverlay');
+            const signupForm = document.getElementById('signupForm');
+            const body = document.body;
+
+            function showOverlay() {
+                if (signupOverlay) {
+                    signupOverlay.classList.remove('hidden');
+                    body.classList.add('no-scroll');
+                }
+            }
+
+            function hideOverlay() {
+                if (signupOverlay) {
+                    signupOverlay.classList.add('hidden');
+                    body.classList.remove('no-scroll');
+                }
+            }
+
+            // Show the overlay when the page loads (only on index.html or root path)
+            if (signupOverlay && (window.location.pathname.includes('index.html') || window.location.pathname === '/')) {
+                showOverlay();
+            }
+
+            if (signupForm) {
+                signupForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+
+                    const name = document.getElementById('overlayName').value;
+                    const address = document.getElementById('overlayAddress').value;
+                    const mobile = document.getElementById('overlayMobile').value;
+                    const email = document.getElementById('overlayEmail').value;
+
+                    if (name === "" || address === "" || mobile === "" || email === "") {
+                        alert("Please fill in all required fields.");
+                        return;
+                    }
+
+                    const templateParams = {
+                        fullName: name,
+                        address: address,
+                        mobileNumber: mobile,
+                        whatsappNumber: document.getElementById('overlayWhatsapp').value,
+                        email: email,
+                        email_to: "kholi1203@gmail.com"
+                    };
+
+                    // Service ID: service_c480s7u, Template ID: template_d830k2i
+                    emailjs.send("service_c480s7u", "template_d830k2i", templateParams)
+                        .then(function(response) {
+                            console.log('SIGNUP SUCCESS!', response.status, response.text);
+                            alert("Thank you for signing up! You can now explore the page.");
+                            hideOverlay();
+                            signupForm.reset();
+                        }, function(error) {
+                            console.error('SIGNUP FAILED...', error);
+                            alert("Oops! Something went wrong with your sign-up. Please try again.");
+                        });
+                });
+            }
+
+            // --- Order Form Submission Logic ---
+            const orderForm = document.getElementById('orderForm');
+            if (orderForm) {
+                orderForm.addEventListener('submit', function(event) {
+                    event.preventDefault();
+
+                    const fullName = document.getElementById('fullName').value;
+                    const mobileNumber = document.getElementById('mobileNumber').value;
+                    const email = document.getElementById('email').value;
+                    const fullAddress = document.getElementById('fullAddress').value;
+                    const eventType = document.getElementById('eventType').value;
+                    const eventDate = document.getElementById('eventDate').value;
+                    const numGuests = document.getElementById('numGuests').value;
+
+                    if (fullName === "" || mobileNumber === "" || email === "" || fullAddress === "" || eventType === "" || eventDate === "" || numGuests === "") {
+                        alert("Please fill in all required fields for the event order.");
+                        return;
+                    }
+
+                    const orderTemplateParams = {
+                        fullName: fullName,
+                        mobileNumber: mobileNumber,
+                        whatsappNumber: document.getElementById('whatsappNumber').value,
+                        email: email,
+                        fullAddress: fullAddress,
+                        eventType: eventType,
+                        eventDate: eventDate,
+                        numGuests: numGuests,
+                        eventDetails: document.getElementById('eventDetails').value,
+                        budgetRange: document.getElementById('budgetRange').value,
+                        yourIdeas: document.getElementById('yourIdeas').value,
+                        email_to: "kholi1203@gmail.com"
+                    };
+
+                    // Service ID: service_c480s7u, Template ID: template_order_form
+                    emailjs.send("service_c480s7u", "template_order_form", orderTemplateParams)
+                        .then(function(response) {
+                            console.log('ORDER SUCCESS!', response.status, response.text);
+                            alert("Your event order has been submitted successfully! We will contact you soon.");
+                            orderForm.reset();
+                        }, function(error) {
+                            console.error('ORDER FAILED...', error);
+                            alert("Oops! There was a problem submitting your order. Please try again.");
+                        });
+                });
+            }
+        });
+        // *** आपका पूरा JavaScript कोड यहां समाप्त होता है ***
+    </script>
+    </body>
+</html>
